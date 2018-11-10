@@ -21,6 +21,8 @@ func ReadCsv(file string) ([]*Record, error) {
 		return csvRecords, err
 	}
 
+	defer fileStream.Close()
+
 	reader := csv.NewReader(fileStream)
 	rows, err := reader.ReadAll()
 	if(err != nil) {

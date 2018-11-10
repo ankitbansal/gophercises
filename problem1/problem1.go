@@ -6,10 +6,22 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"flag"
 )
 
+var (
+	filePath 	string
+	random		bool
+)
+
+func init() {
+	flag.StringVar(&filePath, "filePath", "csv/simple.csv", "Name of csv File from which to read questions")
+	flag.BoolVar(&random, "randomize", true, "boolean flag to specify whether to randomize questions. Defaults to true")
+	flag.Parse()
+}
+
 func main() {
-	records, _ := csv.ReadCsv("csv/simple.csv")
+	records, _ := csv.ReadCsv(filePath)
 	reader := bufio.NewReader(os.Stdin)
 	correctAnswers := 0
 

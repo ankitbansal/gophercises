@@ -3,23 +3,23 @@ package csv
 import "testing"
 
 func TestShouldReadMultilineCSV(t *testing.T) {
-	records, _ := readCsv("simple.csv")
+	records, _ := ReadCsv("simple.csv")
 	validateCsvFormat(records, 13, t)
 }
 
 func TestShouldReadCSVWithSpecialCharacters(t *testing.T) {
-	records, _ := readCsv("csv_with_special_characters.csv")
+	records, _ := ReadCsv("csv_with_special_characters.csv")
 	validateCsvFormat(records, 3, t)
 }
 
 func TestShouldNotErrorOutEmptyFile(t *testing.T) {
-	records, _ := readCsv("empty.csv")
+	records, _ := ReadCsv("empty.csv")
 	validateCsvFormat(records, 0, t)
 }
 
 
 func TestShouldThrowErrorForInvalidCsv(t *testing.T) {
-	_, err := readCsv("invalid.csv")
+	_, err := ReadCsv("invalid.csv")
 	if (err == nil) {
 		t.Errorf("Invalid CSV should throw error.")
 	}
@@ -31,10 +31,10 @@ func validateCsvFormat(records []*Record, numRecords int, t *testing.T) {
 	}
 
 	for i:= 0; i < len(records); i++ {
-		if(records[i].question == "") {
+		if(records[i].Question == "") {
 			t.Errorf("Record : %d has question undefined", i)
 		}
-		if(records[i].answer == "") {
+		if(records[i].Answer == "") {
 			t.Errorf("Record : %d has answer undefined", i)
 		}
 	}

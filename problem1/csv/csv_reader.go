@@ -8,11 +8,11 @@ import (
 )
 
 type Record struct {
-	question 	string
-	answer	 	string
+	Question 	string
+	Answer	 	string
 }
 
-func readCsv(file string) ([]*Record, error) {
+func ReadCsv(file string) ([]*Record, error) {
 	var err error
 	var csvRecords []*Record
 

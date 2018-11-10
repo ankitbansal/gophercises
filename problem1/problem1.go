@@ -7,6 +7,8 @@ import (
 	"os"
 	"strings"
 	"flag"
+	"math/rand"
+	"time"
 )
 
 var (
@@ -24,6 +26,14 @@ func main() {
 	records, _ := csv.ReadCsv(filePath)
 	reader := bufio.NewReader(os.Stdin)
 	correctAnswers := 0
+
+	if random {
+		rand.Seed(time.Now().UTC().UnixNano())
+		rand.Shuffle(len(records), func(i, j int) {
+			records[i], records[j] = records[j], records[i]
+		})
+	}
+
 
 	for i:= 0; i < len(records); i++ {
 		record := records[i]

@@ -5,6 +5,7 @@ import (
 	"os"
 	"fmt"
 	"errors"
+	"strings"
 )
 
 type Record struct {
@@ -35,7 +36,7 @@ func ReadCsv(file string) ([]*Record, error) {
 			err = errors.New(fmt.Sprintf("Row %d is invalid", i))
 			return csvRecords, err
 		}
-		record := &Record{row[0], row[1]}
+		record := &Record{strings.TrimSpace(row[0]), strings.TrimSpace(row[1])}
 		csvRecords = append(csvRecords, record)
 	}
 	return csvRecords, err;

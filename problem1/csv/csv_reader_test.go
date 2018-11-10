@@ -1,4 +1,4 @@
-package problem1
+package csv
 
 import "testing"
 

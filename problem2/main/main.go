@@ -9,11 +9,13 @@ import (
 )
 
 var (
-	filePath string
+	yamlFilePath string
+	jsonFilePath string
 )
 
 func init() {
-	flag.StringVar(&filePath, "filePath", "main/sampleurl.yaml", "Yaml file from which to read url's")
+	flag.StringVar(&yamlFilePath, "yamlFilePath", "main/sampleurl.yaml", "Yaml file from which to read url's")
+	flag.StringVar(&jsonFilePath, "jsonFilePath", "main/url.json", "JSON file from which to read url's")
 	flag.Parse()
 }
 
@@ -27,9 +29,9 @@ func main() {
 	}
 	mapHandler := problem2.MapHandler(pathsToUrls, mux)
 
-	// Build the YAMLHandler using the mapHandler as the
-	// fallback
-	yaml, err := ioutil.ReadFile(filePath)
+	 //Build the YAMLHandler using the mapHandler as the
+	 //fallback
+	yaml, err := ioutil.ReadFile(yamlFilePath)
 	if err != nil {
 		panic(err)
 	}
@@ -38,8 +40,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	json, err := ioutil.ReadFile(jsonFilePath)
+	jsonHandler, err := problem2.JSONHandler([]byte (json), yamlHandler)
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Println("Starting the server on :8080")
-	http.ListenAndServe(":8080", yamlHandler)
+	http.ListenAndServe(":8080", jsonHandler)
 }
 
 func defaultMux() *http.ServeMux {

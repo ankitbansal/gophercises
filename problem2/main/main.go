@@ -4,7 +4,18 @@ import (
 	"fmt"
 	"gophercises/problem2"
 	"net/http"
+	"io/ioutil"
+	"flag"
 )
+
+var (
+	filePath string
+)
+
+func init() {
+	flag.StringVar(&filePath, "filePath", "main/sampleurl.yaml", "Yaml file from which to read url's")
+	flag.Parse()
+}
 
 func main() {
 	mux := defaultMux()
@@ -18,12 +29,11 @@ func main() {
 
 	// Build the YAMLHandler using the mapHandler as the
 	// fallback
-	yaml := `
-- path: /urlshort
-  url: https://github.com/gophercises/urlshort
-- path: /urlshort-final
-  url: https://github.com/gophercises/urlshort/tree/solution
-`
+	yaml, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		panic(err)
+	}
+
 	yamlHandler, err := problem2.YAMLHandler([]byte(yaml), mapHandler)
 	if err != nil {
 		panic(err)
